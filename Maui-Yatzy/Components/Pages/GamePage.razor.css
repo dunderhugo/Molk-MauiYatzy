@@ -1,12 +1,8 @@
-﻿body {
-    
-    /* CSS för tärningar */
-.dice-area {
+﻿.dice-area {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
 }
-
 .dice {
     width: 70px;
     height: 70px;
@@ -18,17 +14,13 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
+.dice:hover {
+    background-color: #e0e0e0;
+}
+.dice[style*="background-color: lightblue;"] {
+    background-color: lightblue;
+}
 
-    .dice:hover {
-        background-color: #e0e0e0;
-    }
-
-    /* Om tärningen är vald, använd en blå bakgrund */
-    .dice[style*="background-color: lightblue;"] {
-        background-color: lightblue;
-    }
-
-/* Knappar */
 button {
     padding: 10px 20px;
     font-size: 16px;
@@ -40,26 +32,22 @@ button {
     margin-right: 10px;
 }
 
-    button:hover {
-        background-color: #0056b3;
-    }
+button:hover {
+    background-color: #0056b3;
+}
 
-/* Poängtavla */
 .scoreboard {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
 }
 
-    .scoreboard th, .scoreboard td {
-        padding: 10px;
-        border: 1px solid #ddd;
-        text-align: left;
-    }
-
-    .scoreboard th {
-        background-color: #f8f9fa;
-    }
-
+.scoreboard th, .scoreboard td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
 }
+
+.scoreboard th {
+    background-color: #f8f9fa;
 }
