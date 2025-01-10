@@ -2,6 +2,118 @@
 
 <h3>GamePage</h3>
 
-@code {
+@page "/counter"
 
+<h1>Tärningsområde för Yatzy</h1>
+
+<div class="dice-area">
+    @foreach (var dice in DiceValues)
+    {
+        <div class="dice" style="@(dice.IsSelected ? "background-color: lightblue;" : "")" @onclick="() => ToggleSelection(dice.Index)">
+            <img src="@GetDiceImage(dice.Value)" alt="Tärning @dice.Value" />
+        </div>
+    }
+</div>
+
+<button @onclick="RollDice">Kasta tärningarna</button>
+<button @onclick="SaveScore">Spara poäng</button>
+
+<h2>Poängtavla</h2>
+<table class="scoreboard">
+    <thead>
+        <tr>
+            <th>Kategori</th>
+            <th>Poäng</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var score in Scores)
+        {
+            <tr>
+                <td>@score.Category</td>
+                <td>@(score.Points.HasValue ? score.Points.Value.ToString() : "-")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@code {
+    private List<DiceModel> DiceValues = new List<DiceModel>
+    {
+        new DiceModel { Index = 0, Value = 1 },
+        new DiceModel { Index = 1, Value = 1 },
+        new DiceModel { Index = 2, Value = 1 },
+        new DiceModel { Index = 3, Value = 1 },
+        new DiceModel { Index = 4, Value = 1 }
+    };
+
+    private List<ScoreModel> Scores = new List<ScoreModel>
+    {
+        new ScoreModel { Category = "Ettor" },
+        new ScoreModel { Category = "Tvåor" },
+        new ScoreModel { Category = "Treor" },
+        new ScoreModel { Category = "Fyror" },
+        new ScoreModel { Category = "Femmor" },
+        new ScoreModel { Category = "Sexor" },
+        new ScoreModel { Category = "Summa" }
+    };
+
+    private void RollDice()
+    {
+        var random = new Random();
+
+        foreach (var dice in DiceValues)
+        {
+            if (!dice.IsSelected) // Kasta bara icke-valda tärningar
+            {
+                dice.Value = random.Next(1, 7); // Generera ett värde mellan 1 och 6
+            }
+        }
+    }
+
+    private void ToggleSelection(int index)
+    {
+        DiceValues[index].IsSelected = !DiceValues[index].IsSelected;
+    }
+
+    private void SaveScore()
+    {
+        // Här sparar vi poängen för en kategori, till exempel "Ettor"
+        var onesScore = DiceValues.Where(d => d.Value == 1).Sum(d => d.Value);
+        var category = Scores.FirstOrDefault(s => s.Category == "Ettor");
+
+        if (category != null && !category.Points.HasValue)
+        {
+            category.Points = onesScore;
+        }
+    }
+
+    private string GetDiceImage(int value)
+    {
+        return value switch
+        {
+            1 => "/images/dice-1.png",
+            2 => "/images/dice-2.png",
+            3 => "/images/dice-3.png",
+            4 => "/images/dice-4.png",
+            5 => "/images/dice-5.png",
+            6 => "/images/dice-6.png",
+            _ => "/images/dice-1.png" // Default om något går fel
+        };
+    }
+
+    private class DiceModel
+    {
+        public int Index { get; set; }
+        public int Value { get; set; }
+        public bool IsSelected { get; set; } = false;
+    }
+
+    private class ScoreModel
+    {
+        public string Category { get; set; }
+        public int? Points { get; set; } // Nullable för att visa "inte ifylld" med "-"
+    }
 }
+
