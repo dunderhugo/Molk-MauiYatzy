@@ -58,26 +58,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <MauiFont Include="wwwroot\dicefive.png" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <MauiImage Include="wwwroot\dicefive.png" />
-      <MauiImage Include="wwwroot\dicefour.png" />
-      <MauiImage Include="wwwroot\diceone.png" />
-      <MauiImage Include="wwwroot\dicethree.png" />
-      <MauiImage Include="wwwroot\dicetwo.png" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Include="wwwroot\dicefive.png" />
-      <None Include="wwwroot\dicefour.png" />
-      <None Include="wwwroot\diceone.png" />
-      <None Include="wwwroot\dicethree.png" />
-      <None Include="wwwroot\dicetwo.png" />
-    </ItemGroup>
-
-    <ItemGroup>
         <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
         <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="$(MauiVersion)" />
