@@ -1,41 +1,20 @@
 ﻿@page "/game"
 @using Maui_Yatzy.Components.Classes
 
-@{
-    Players.playerList.Add(new Players("Hugo"));
-    Players.playerList.Add(new Players("Abbas"));
-}
 <h3>GamePage</h3>
-@* public List<Type> player = new(); *@
 
-<div class="choosePlayers">
-    <div>
-        @foreach(var player in Players.playerList)
-        {
-            <p>@player.ToString()</p>
-        }
-        <button @onclick="AddPlayer">Add Player</button>
-        <button>Remove Player</button>
+<h1>Tärningsområde för Yatzy</h1>
 
-    </div>
-</div>
-
-<div class="gameBoard">
-    <div>
-        <h4>Namn</h4>
-        @foreach (var player in Players.playerList)
-        {
-            <p>@player.ToString()</p>
-        }
-    </div>
-</div>
-
+@{
+    Player.PlayerList.Add(new Player("Hugo"));
+    Player.PlayerList.Add(new Player("Abbas"));
+}
 
 <div class="dice-area">
     @foreach (var dice in DiceValues)
     {
         <div class="dice" style="@(dice.IsSelected ? "background-color: lightblue;" : "")" @onclick="() => ToggleSelection(dice.Index)">
-            <img src="@GetDiceImage(dice.Value)" alt="Tärning @dice.Value" />
+            @* <img src="@GetDiceImage(dice.Value)" alt="Tärning @dice.Value" /> *@
         </div>
     }
 </div>
@@ -64,13 +43,6 @@
 
 
 @code {
-
-    public void AddPlayer()
-    {
-        
-    }
-
-
     private List<DiceModel> DiceValues = new List<DiceModel>
     {
         new DiceModel { Index = 0, Value = 1 },
@@ -98,7 +70,7 @@
         new ScoreModel { Category = "Kåk" },
         new ScoreModel { Category = "Chans" },
         new ScoreModel { Category = "YATZY" },
-
+        new ScoreModel { Category = "Summa" }
     };
 
     private void RollDice()
@@ -133,11 +105,9 @@
 
     private string GetDiceImage(int value)
     {
-        string test = "Null";
-        return test;
         return value switch
         {
-            1 => "test.png",
+            1 => "diceone.png",
             2 => "dicetwo.png",
             3 => "dicethree.png",
             4 => "dicefour.png",
