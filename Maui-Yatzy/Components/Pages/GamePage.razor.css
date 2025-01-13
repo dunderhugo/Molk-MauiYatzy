@@ -51,3 +51,49 @@ button:hover {
 .scoreboard th {
     background-color: #f8f9fa;
 }
+
+.startWindow{
+    display: block;
+    height: 80vh;
+    width: 80vw;
+
+}
+
+.startGameWindow {
+    background-color: aquamarine;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 80vh;
+}
+
+.playersAddedBox {
+    max-width: 300px;
+    width: 80vw;
+    background-color: antiquewhite;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.playersAddedBox p{
+    font-weight: 600;
+    font-size: larger;
+    background-color: aqua;
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+}
+.playersAddedBox button {
+    text-align: center;
+    padding: 5px;
+    margin: 0px;
+    background-color: red;
+}
+
+.addPlayers button {
+    text-align: center;
+    padding: 5px;
+    margin: 0px;
+    background-color: green;
+}

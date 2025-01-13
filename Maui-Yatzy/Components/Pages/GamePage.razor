@@ -1,14 +1,34 @@
 ﻿@page "/game"
 @using Maui_Yatzy.Components.Classes
-
-<h3>GamePage</h3>
-
-<h1>Tärningsområde för Yatzy</h1>
-
 @{
     Player.PlayerList.Add(new Player("Hugo"));
     Player.PlayerList.Add(new Player("Abbas"));
 }
+
+<div class="startWindow">
+    <div class="startGameWindow">
+        <div>
+            @foreach (var player in Player.PlayerList)
+            {
+                <div class="playersAddedBox">
+                    <p>@player.ToString()</p>
+                    <button>Remove player</button>
+                </div>
+            }
+        </div>
+
+        <div class="addPlayers">
+            <input type="text" />
+            <button>
+                Add player
+            </button>
+        </div>
+        <button class="starGame" @onclick="StartGameBtn">
+            Start Game
+        </button>
+    </div>
+</div>
+
 
 <div class="dice-area">
     @foreach (var dice in DiceValues)
@@ -101,6 +121,11 @@
         {
             category.Points = onesScore;
         }
+    }
+
+    private void StartGameBtn()
+    {
+        
     }
 
     private string GetDiceImage(int value)
