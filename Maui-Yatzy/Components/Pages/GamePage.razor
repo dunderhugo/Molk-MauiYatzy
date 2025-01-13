@@ -1,11 +1,35 @@
 ﻿@page "/game"
+@using Maui_Yatzy.Components.Classes
 
+@{
+    Players.playerList.Add(new Players("Hugo"));
+    Players.playerList.Add(new Players("Abbas"));
+}
 <h3>GamePage</h3>
+@* public List<Type> player = new(); *@
 
+<div class="choosePlayers">
+    <div>
+        @foreach(var player in Players.playerList)
+        {
+            <p>@player.ToString()</p>
+        }
+        <button @onclick="AddPlayer">Add Player</button>
+        <button>Remove Player</button>
 
+    </div>
+</div>
 
+<div class="gameBoard">
+    <div>
+        <h4>Namn</h4>
+        @foreach (var player in Players.playerList)
+        {
+            <p>@player.ToString()</p>
+        }
+    </div>
+</div>
 
-<h1>Tärningsområde för Yatzy</h1>
 
 <div class="dice-area">
     @foreach (var dice in DiceValues)
@@ -40,6 +64,13 @@
 
 
 @code {
+
+    public void AddPlayer()
+    {
+        
+    }
+
+
     private List<DiceModel> DiceValues = new List<DiceModel>
     {
         new DiceModel { Index = 0, Value = 1 },
@@ -102,9 +133,11 @@
 
     private string GetDiceImage(int value)
     {
+        string test = "Null";
+        return test;
         return value switch
         {
-            1 => "diceone.png",
+            1 => "test.png",
             2 => "dicetwo.png",
             3 => "dicethree.png",
             4 => "dicefour.png",
