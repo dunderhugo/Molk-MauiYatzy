@@ -1,33 +1,33 @@
 ﻿@page "/"
 @using Maui_Yatzy.Components.Classes
-@{
-    Player.PlayerList.Add(new Player("Hugo"));
-    Player.PlayerList.Add(new Player("Abbas"));
-}
 
-<div class="startWindow">
-    <div class="startGameWindow">
-        <div>
-            @foreach (var player in Player.PlayerList)
-            {
-                <div class="playersAddedBox">
-                    <p>@player.ToString()</p>
-                    <button>Remove player</button>
-                </div>
-            }
-        </div>
+@if (startWindowToggle)
+{
+    <div class="startWindow">
+        <div class="startGameWindow">
+            <div>
+                @foreach (var player in Player.PlayerList)
+                {
+                    <div class="playersAddedBox">
+                        <p>@player.ToString()</p>
+                        <button>Remove player</button>
+                    </div>
+                }
+            </div>
 
-        <div class="addPlayers">
-            <input type="text" @bind="newPlayerName" placeholder="Enter player name" />
-            <button @onclick="AddPlayer">
-                Add player
+            <div class="addPlayers">
+                <input type="text" @bind="newPlayerName" placeholder="Enter player name" />
+                <button @onclick="AddPlayer">
+                    Add player
+                </button>
+            </div>
+            <button class="starGame" @onclick="StartGameBtn">
+                Start Game
             </button>
         </div>
-        <button class="starGame" @onclick="StartGameBtn">
-            Start Game
-        </button>
     </div>
-</div>
+}
+
 
 
 <div class="dice-area">
@@ -63,6 +63,8 @@
 
 
 @code {
+    private bool startWindowToggle = true;
+
     private List<DiceModel> DiceValues = new List<DiceModel>
     {
         new DiceModel { Index = 0, Value = 1 },
@@ -125,7 +127,7 @@
 
     private void StartGameBtn()
     {
-
+        startWindowToggle = !startWindowToggle;
     }
     private string newPlayerName = string.Empty;
     private void AddPlayer()
