@@ -3,17 +3,18 @@
 <h3>GamePage</h3>
 
 
-
-
 <h1>Tärningsområde för Yatzy</h1>
+
+
 
 <div class="dice-area">
     @foreach (var dice in DiceValues)
     {
-        <div class="dice" style="@(dice.IsSelected ? "background-color: lightblue;" : "")" @onclick="() => ToggleSelection(dice.Index)">
-            <img src="@GetDiceImage(dice.Value)" alt="Tärning @dice.Value" />
+        <div class="dice">
+            <img class="dice" src="@GetDiceImage(dice.Value)" alt="Tärning @dice.Value" style="@(dice.IsSelected ? "background-color: lightblue;" : "")" @onclick="() => ToggleSelection(dice.Index)"/>
         </div>
     }
+
 </div>
 
 <button @onclick="RollDice">Kasta tärningarna</button>
@@ -58,7 +59,8 @@
         new ScoreModel { Category = "Femmor" },
         new ScoreModel { Category = "Sexor" },
         new ScoreModel { Category = "Summa" }
-    };
+    }; 
+    private readonly bool[] isDieSelected = new bool[5];
 
     private void RollDice()
     {
