@@ -27,39 +27,40 @@
         </div>
     </div>
 }
-
-
-
-<div class="dice-area">
-    @foreach (var dice in DiceValues)
-    {
-        <div class="dice" style="@(dice.IsSelected ? "background-color: lightblue;" : "")" @onclick="() => ToggleSelection(dice.Index)">
-            @* <img src="@GetDiceImage(dice.Value)" alt="Tärning @dice.Value" /> *@
-        </div>
-    }
-</div>
-
-<button @onclick="RollDice">Kasta tärningarna</button>
-<button @onclick="SaveScore">Spara poäng</button>
-
-<h2>Poängtavla</h2>
-<table class="scoreboard">
-    <thead>
-        <tr>
-            <th>Kategori</th>
-            <th>Poäng</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var score in Scores)
+@if (!startWindowToggle)
+{
+    <div class="dice-area">
+        @foreach (var dice in DiceValues)
         {
-            <tr>
-                <td>@score.Category</td>
-                <td>@(score.Points.HasValue ? score.Points.Value.ToString() : "-")</td>
-            </tr>
+            <div class="dice" style="@(dice.IsSelected ? "background-color: lightblue;" : "")" @onclick="() => ToggleSelection(dice.Index)">
+                @* <img src="@GetDiceImage(dice.Value)" alt="Tärning @dice.Value" /> *@
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+
+    <button @onclick="RollDice">Kasta tärningarna</button>
+    <button @onclick="SaveScore">Spara poäng</button>
+
+    <h2>Poängtavla</h2>
+    <table class="scoreboard">
+        <thead>
+            <tr>
+                <th>Kategori</th>
+                <th>Poäng</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var score in Scores)
+            {
+                <tr>
+                    <td>@score.Category</td>
+                    <td>@(score.Points.HasValue ? score.Points.Value.ToString() : "-")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
 
 
 @code {

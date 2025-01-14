@@ -60,7 +60,6 @@ button:hover {
 }
 
 .startGameWindow {
-    background-color: aquamarine;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -68,9 +67,12 @@ button:hover {
 }
 
 .playersAddedBox {
+    border: solid;
+    border-radius: 5px;
+    border-width: thin;
+    padding: 5px;
     max-width: 300px;
     width: 80vw;
-    background-color: antiquewhite;
     margin: 10px;
     display: flex;
     align-items: center;
@@ -79,7 +81,6 @@ button:hover {
 .playersAddedBox p{
     font-weight: 600;
     font-size: larger;
-    background-color: aqua;
     text-align: center;
     padding: 0px;
     margin: 0px;
