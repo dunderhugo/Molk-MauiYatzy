@@ -18,8 +18,8 @@
         </div>
 
         <div class="addPlayers">
-            <input type="text" />
-            <button>
+            <input type="text" @bind="newPlayerName" placeholder="Enter player name" />
+            <button @onclick="AddPlayer">
                 Add player
             </button>
         </div>
@@ -125,7 +125,16 @@
 
     private void StartGameBtn()
     {
-        
+
+    }
+    private string newPlayerName = string.Empty;
+    private void AddPlayer()
+    {
+        if (!string.IsNullOrEmpty(newPlayerName))
+        {
+            Player.PlayerList.Add(new Player(newPlayerName));
+            newPlayerName = string.Empty;
+        }
     }
 
     private string GetDiceImage(int value)
