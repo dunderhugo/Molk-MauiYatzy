@@ -1,6 +1,17 @@
+
 ﻿@page "/"
 @using Maui_Yatzy.Components.Classes
 
+<h3>GamePage</h3>
+<nav class="menu-bar">
+    <ul>
+        <li><a href="/newgame">Nytt spel</a></li>
+        <li><a href="/rules">Regler</a></li>
+        <li><a href="/scores">Poängtavla</a></li>
+        <li><a href="/settings">Inställningar</a></li>
+        <li><a href="/exit">Avsluta</a></li>
+    </ul>
+</nav>
 
 @if (startWindowToggle)
 {
@@ -93,6 +104,7 @@
         </tbody>
     </table>
 } *@
+          
 @code {
     private Dictionary<Player, List<ScoreModel>> playerScores = new();
     private int GetPlayerScore(Player player)
@@ -137,6 +149,7 @@
         new ScoreModel { Category = "YATZY" },
         new ScoreModel { Category = "Summa" }
     };
+    
 
     private void RollDice()
     {
