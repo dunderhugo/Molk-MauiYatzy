@@ -4,7 +4,7 @@
 <h3>GamePage</h3>
 <nav class="menu-bar">
     <ul>
-        <li><a href="/newgame">Nytt spel</a></li>
+        <li><button @onclick="ChoosePlayersBtn">Nytt spel</button></li>
         <li><a href="/rules">Regler</a></li>
         <li><a href="/scores">Poängtavla</a></li>
         <li><a href="/settings">Inställningar</a></li>
@@ -12,98 +12,100 @@
     </ul>
 </nav>
 
-@if (startWindowToggle)
+@if (startGamePage)
 {
-    <div class="startWindow">
-        <div class="startGameWindow">
-            <div>
-                @foreach (var player in Player.PlayerList)
-                {
-                    <div class="playersAddedBox">
-                        <p>@player.ToString()</p>
-                        @* TODO: Fix remove button *@
-                        <button>Remove player</button>
-                    </div>
-                }
-            </div>
-
-            <div class="addPlayers">
-                <input type="text" @bind="newPlayerName" placeholder="Enter player name" />
-                <button @onclick="AddPlayer">
-                    Add player
-                </button>
-            </div>
-            <button class="starGame" @onclick="StartGameBtn">
-                Start Game
-            </button>
-        </div>
-    </div>
-}
-@* @if (!startWindowToggle)
-{
-    <div class="gameBoard">
-        <table>
-            <thead>
-                <tr>
-                    <th>Category</th>
+    @if (startWindowToggle)
+    {
+        <div class="startWindow">
+            <div class="startGameWindow">
+                <div>
                     @foreach (var player in Player.PlayerList)
                     {
-                        <th>@player.ToString()</th>
+                        <div class="playersAddedBox">
+                            <p>@player.ToString()</p>
+                            @* TODO: Fix remove button *@
+                            <button>Remove player</button>
+                        </div>
                     }
+                </div>
+                <div class="addPlayers">
+                    <input type="text" @bind="newPlayerName" placeholder="Enter player name" />
+                    <button @onclick="AddPlayer">
+                        Add player
+                    </button>
+                </div>
+                <button class="starGame" @onclick="StartGameBtn">
+                    Start Game
+                </button>
+            </div>
+        </div>
+    }
+    @if (!startWindowToggle)
+    {
+        <div class="gameBoard">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        @foreach (var player in Player.PlayerList)
+                        {
+                            <th>@player.ToString()</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var category in Scores)
+                    {
+                        <tr>
+                            <td>@category.Category</td>
+                            @foreach (var player in Player.PlayerList)
+                            {
+                                <td>
+                                    @{
+                                        var playerScore = playerScores[player]
+                                        .FirstOrDefault(s => s.Category == category.Category)?.Points;
+                                    }
+                                    @(playerScore.HasValue ? playerScore.ToString() : "-")
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="dice-area">
+            @foreach (var dice in DiceValues)
+            {
+                <div class="dice" style="@(dice.IsSelected ? "background-color: lightblue;" : "")" @onclick="() => ToggleSelection(dice.Index)">
+                    <img src="@GetDiceImage(dice.Value)" alt="Tärning @dice.Value" />
+                </div>
+            }
+        </div>
+
+        <button @onclick="RollDice">Kasta tärningarna</button>
+        <button @onclick="SaveScore">Spara poäng</button>
+
+        <h2>Poängtavla</h2>
+        <table class="scoreboard">
+            <thead>
+                <tr>
+                    <th>Kategori</th>
+                    <th>Poäng</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var category in Scores)
+                @foreach (var score in Scores)
                 {
                     <tr>
-                        <td>@category.Category</td>
-                        @foreach (var player in Player.PlayerList)
-                        {
-                            <td>
-                                @{
-                                    var playerScore = playerScores[player]
-                                    .FirstOrDefault(s => s.Category == category.Category)?.Points;
-                                }
-                                @(playerScore.HasValue ? playerScore.ToString() : "-")
-                            </td>
-                        }
+                        <td>@score.Category</td>
+                        <td>@(score.Points.HasValue ? score.Points.Value.ToString() : "-")</td>
                     </tr>
                 }
             </tbody>
         </table>
-    </div>
-    <div class="dice-area">
-        @foreach (var dice in DiceValues)
-        {
-            <div class="dice" style="@(dice.IsSelected ? "background-color: lightblue;" : "")" @onclick="() => ToggleSelection(dice.Index)">
-                <img src="@GetDiceImage(dice.Value)" alt="Tärning @dice.Value" />
-            </div>
-        }
-    </div>
+    }
+}
 
-    <button @onclick="RollDice">Kasta tärningarna</button>
-    <button @onclick="SaveScore">Spara poäng</button>
-
-    <h2>Poängtavla</h2>
-    <table class="scoreboard">
-        <thead>
-            <tr>
-                <th>Kategori</th>
-                <th>Poäng</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var score in Scores)
-            {
-                <tr>
-                    <td>@score.Category</td>
-                    <td>@(score.Points.HasValue ? score.Points.Value.ToString() : "-")</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-} *@
-          
 @code {
     private Dictionary<Player, List<ScoreModel>> playerScores = new();
     private int GetPlayerScore(Player player)
@@ -117,6 +119,9 @@
         return 0;
     }
     private bool startWindowToggle = true;
+    private bool startGamePage = false;
+
+
 
     private List<DiceModel> DiceValues = new List<DiceModel>
     {
@@ -148,7 +153,7 @@
         new ScoreModel { Category = "YATZY" },
         new ScoreModel { Category = "Summa" }
     };
-    
+
 
     private void RollDice()
     {
@@ -183,6 +188,10 @@
     private void StartGameBtn()
     {
         startWindowToggle = !startWindowToggle;
+    }
+    private void ChoosePlayersBtn()
+    {
+        startGamePage = !startGamePage;
     }
     private string newPlayerName = string.Empty;
     private void AddPlayer()
