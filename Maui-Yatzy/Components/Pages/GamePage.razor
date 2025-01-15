@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using Maui_Yatzy.Components.Classes
 
+
 @if (startWindowToggle)
 {
     <div class="startWindow">
@@ -28,13 +29,44 @@
         </div>
     </div>
 }
-@if (!startWindowToggle)
+@* @if (!startWindowToggle)
 {
+    <div class="gameBoard">
+        <table>
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    @foreach (var player in Player.PlayerList)
+                    {
+                        <th>@player.ToString()</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var category in Scores)
+                {
+                    <tr>
+                        <td>@category.Category</td>
+                        @foreach (var player in Player.PlayerList)
+                        {
+                            <td>
+                                @{
+                                    var playerScore = playerScores[player]
+                                    .FirstOrDefault(s => s.Category == category.Category)?.Points;
+                                }
+                                @(playerScore.HasValue ? playerScore.ToString() : "-")
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
     <div class="dice-area">
         @foreach (var dice in DiceValues)
         {
             <div class="dice" style="@(dice.IsSelected ? "background-color: lightblue;" : "")" @onclick="() => ToggleSelection(dice.Index)">
-                @* <img src="@GetDiceImage(dice.Value)" alt="Tärning @dice.Value" /> *@
+                <img src="@GetDiceImage(dice.Value)" alt="Tärning @dice.Value" />
             </div>
         }
     </div>
@@ -60,11 +92,19 @@
             }
         </tbody>
     </table>
-
-}
-
-
+} *@
 @code {
+    private Dictionary<Player, List<ScoreModel>> playerScores = new();
+    private int GetPlayerScore(Player player)
+    {
+        if (playerScores.ContainsKey(player))
+        {
+            return playerScores[player]
+                .Where(score => score.Points.HasValue)
+                .Sum(score => score.Points.Value);
+        }
+        return 0;
+    }
     private bool startWindowToggle = true;
 
     private List<DiceModel> DiceValues = new List<DiceModel>
@@ -73,7 +113,8 @@
         new DiceModel { Index = 1, Value = 1 },
         new DiceModel { Index = 2, Value = 1 },
         new DiceModel { Index = 3, Value = 1 },
-        new DiceModel { Index = 4, Value = 1 }
+        new DiceModel { Index = 4, Value = 1 },
+        new DiceModel { Index = 5, Value = 1 }
     };
 
     private List<ScoreModel> Scores = new List<ScoreModel>
@@ -150,8 +191,8 @@
             3 => "dicethree.png",
             4 => "dicefour.png",
             5 => "dicefive.png",
-            6 => "dicefive.png",
-            _ => "dice-1.png" // Default om något går fel
+            6 => "dicesix.png",
+            _ => "diceone.png" // Default om något går fel
         };
     }
 
