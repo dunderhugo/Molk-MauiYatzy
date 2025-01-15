@@ -6,6 +6,6 @@ namespace Maui_Yatzy
         public MainPage()
         {
             InitializeComponent();
-        }    
+        }
     }
 }
