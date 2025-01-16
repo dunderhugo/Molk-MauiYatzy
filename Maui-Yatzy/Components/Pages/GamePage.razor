@@ -1,89 +1,89 @@
 ﻿@page "/"
 @using Maui_Yatzy.Components.Classes
 
-<h3>GamePage</h3>
-<nav class="menu-bar">
-    <ul>
-        <li><button @onclick="ChoosePlayersBtn">Nytt spel</button></li>
-        <li><a href="/rules">Regler</a></li>
-        <li><a href="/scores">Poängtavla</a></li>
-        <li><a href="/settings">Inställningar</a></li>
-        <li><a href="/exit">Avsluta</a></li>
-    </ul>
-</nav>
-
-@if (startGamePage)
-{
-    @if (startWindowToggle)
+<div class="gamePageBody">
+    @if (!startGamePage)
     {
-        <div class="startWindow">
-            <div class="startGameWindow">
-                <div>
-                    @foreach (var player in Player.PlayerList)
-                    {
-                        <div class="playersAddedBox">
-                            <p>@player.ToString()</p>
-                            @* TODO: Fix remove button *@
-                            <button>Remove player</button>
-                        </div>
-                    }
-                </div>
-                <div class="addPlayers">
-                    <input type="text" @bind="newPlayerName" placeholder="Enter player name" />
-                    <button @onclick="AddPlayer">
-                        Add player
-                    </button>
-                </div>
-                <button class="starGame" @onclick="StartGameBtn">
-                    Start Game
-                </button>
-            </div>
+        <div class="menu-bar">
+                <button @onclick="ChoosePlayersBtn">Nytt spel</button>
+                <button onclick="location.href='/rules'" type="button">Regler</button>
+                <button>Poängtavla</button>
+                <button>Inställningar</button>
         </div>
     }
-    @if (!startWindowToggle)
-    {
-        <div class="gameBoard">
-            <table class="scoreboard">
-                <thead>
-                    <tr>
-                        <th>Category</th>
-                        @foreach (var player in Player.PlayerList)
-                        {
-                            <th>@player.ToString()</th>
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var category in Scores)
-                    {
-                        <tr>
-                            <td style="font-weight: @(category.Category == "Summa" ? "800" : "normal");">
-                                @category.Category
-                            </td>
+
+    <div class="mainGamePageContent">
+        @if (startGamePage)
+        {
+            @if (startWindowToggle)
+            {
+                <div class="startWindow">
+                    <div class="startGameWindow">
+                        <div>
                             @foreach (var player in Player.PlayerList)
                             {
-                                <td><!--Add scores from players here--></td>
+                                <div class="playersAddedBox">
+                                    <p>@player.ToString()</p>
+                                    @* TODO: Fix remove button *@
+                                    <button>Remove player</button>
+                                </div>
                             }
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-
-        <div class="dice-area">
-            @foreach (var dice in DiceValues)
-            {
-                <div class="dice" style="@(dice.IsSelected ? "background-color: lightblue;" : "")" @onclick="() => ToggleSelection(dice.Index)">
-                    <img class="dicesize" src="@GetDiceImage(dice.Value)" alt="Tärning @dice.Value" />
+                        </div>
+                        <div class="addPlayers">
+                            <input type="text" @bind="newPlayerName" placeholder="Enter player name" />
+                            <button @onclick="AddPlayer">
+                                Add player
+                            </button>
+                        </div>
+                        <button class="starGame" @onclick="StartGameBtn">
+                            Start Game
+                        </button>
+                    </div>
                 </div>
             }
-        </div>
-
-        <button @onclick="RollDice">Kasta tärningarna</button>
-        <button @onclick="SaveScore">Spara poäng</button>
-    }
-}
-
+            @if (!startWindowToggle)
+            {
+                <div class="gameBoard">
+                    <table class="scoreboard">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                @foreach (var player in Player.PlayerList)
+                                {
+                                    <th>@player.ToString()</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var category in Scores)
+                            {
+                                <tr>
+                                    <td style="font-weight: @(category.Category == "Summa" ? "800" : "normal");">
+                                        @category.Category
+                                    </td>
+                                    @foreach (var player in Player.PlayerList)
+                                    {
+                                        <td><!--Add scores from players here--></td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="dice-area">
+                        @foreach (var dice in DiceValues)
+                        {
+                            <div class="dice" style="@(dice.IsSelected ? "background-color: lightblue;" : "")" @onclick="() => ToggleSelection(dice.Index)">
+                                <img class="dicesize" src="@GetDiceImage(dice.Value)" alt="Tärning @dice.Value" />
+                            </div>
+                        }
+                    </div>
+                    <button @onclick="RollDice">Kasta tärningarna</button>
+                    <button @onclick="SaveScore">Spara poäng</button>
+                </div>
+            }
+        }
+    </div>
+</div>
 @code {
     private Dictionary<Player, List<ScoreModel>> playerScores = new();
     private int GetPlayerScore(Player player)
