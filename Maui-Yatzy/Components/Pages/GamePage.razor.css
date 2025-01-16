@@ -30,7 +30,9 @@
 }
 
 
-
+table{
+    border-collapse: collapse;
+}
 
 
 .dice-area {

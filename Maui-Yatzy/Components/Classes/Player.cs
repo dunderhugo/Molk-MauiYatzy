@@ -15,7 +15,10 @@ namespace Maui_Yatzy.Components.Classes
             Name = name;
             Score = 0;
         }
+
+        public static List<int> ScoreList = new List<int>();
         public override string ToString() => $"{Name}";
+
         public static List<Player>? PlayerList { get; set; } = new List<Player>();
     }
 }

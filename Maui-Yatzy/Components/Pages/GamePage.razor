@@ -43,7 +43,7 @@
     @if (!startWindowToggle)
     {
         <div class="gameBoard">
-            <table>
+            <table class="scoreboard">
                 <thead>
                     <tr>
                         <th>Category</th>
@@ -57,52 +57,30 @@
                     @foreach (var category in Scores)
                     {
                         <tr>
-                            <td>@category.Category</td>
+                            <td style="font-weight: @(category.Category == "Summa" ? "800" : "normal");">
+                                @category.Category
+                            </td>
                             @foreach (var player in Player.PlayerList)
                             {
-                                <td>
-                                    @{
-                                        var playerScore = playerScores[player]
-                                        .FirstOrDefault(s => s.Category == category.Category)?.Points;
-                                    }
-                                    @(playerScore.HasValue ? playerScore.ToString() : "-")
-                                </td>
+                                <td><!--Add scores from players here--></td>
                             }
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
+
         <div class="dice-area">
             @foreach (var dice in DiceValues)
             {
                 <div class="dice" style="@(dice.IsSelected ? "background-color: lightblue;" : "")" @onclick="() => ToggleSelection(dice.Index)">
-                    <img src="@GetDiceImage(dice.Value)" alt="Tärning @dice.Value" />
+                    <img class="dicesize" src="@GetDiceImage(dice.Value)" alt="Tärning @dice.Value" />
                 </div>
             }
         </div>
 
         <button @onclick="RollDice">Kasta tärningarna</button>
         <button @onclick="SaveScore">Spara poäng</button>
-
-        <h2>Poängtavla</h2>
-        <table class="scoreboard">
-            <thead>
-                <tr>
-                    <th>Kategori</th>
-                    <th>Poäng</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var score in Scores)
-                {
-                    <tr>
-                        <td>@score.Category</td>
-                        <td>@(score.Points.HasValue ? score.Points.Value.ToString() : "-")</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
     }
 }
 
