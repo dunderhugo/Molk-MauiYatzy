@@ -1,4 +1,13 @@
-﻿.menu-bar {
+﻿.nyi-btn{
+    background-color: grey;
+}
+.nyi-btn:hover{
+    background-color: grey;
+    cursor: not-allowed;
+}
+
+
+.menu-bar {
     background-color: #333;
     height: 100vh;
     width: 100vw;
@@ -23,6 +32,7 @@ table{
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .dicesize {
@@ -68,7 +78,7 @@ button:hover {
 }
 
 .mainGamePageContent{
-    /*background-color: antiquewhite;*/
+    background-color: antiquewhite;
     display: flex;
     justify-items: center;
     height: fit-content;
@@ -86,16 +96,19 @@ button:hover {
     width: fit-content;
 }
 .scoreboard {
-    background-color:aquamarine;
+    background-color: aquamarine;
     border-radius: 1px;
     border-style: solid;
-    /*width: 100vh;*/
     border-collapse: collapse;
     margin-top: 20px;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
 }
 
 .scoreboard th, .scoreboard td {
-    padding: 10px;
+    width: 120px;
+    padding: 2px;
     border: 1px solid #ddd;
     text-align: left;
 }
@@ -119,8 +132,8 @@ button:hover {
     align-items: center;
     flex-direction: column;
     height: 80vh;
-    /*background-color: violet; */
 }
+
 
 .playersAddedBox {
     border: solid;
