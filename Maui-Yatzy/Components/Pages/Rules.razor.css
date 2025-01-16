@@ -1,0 +1,57 @@
+﻿.rules-body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+h1 {
+    color: #2c3e50;
+    text-align: center;
+    margin: 20px 0;
+    font-size: 2.5em;
+}
+
+h2 {
+    color: #34495e;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+    margin-top: 20px;
+    font-size: 1.8em;
+}
+
+p {
+    margin: 10px 0 20px;
+}
+
+ol, ul {
+    margin: 10px 0 20px 20px;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+ul li {
+    font-size: 1.1em;
+    color: #555;
+}
+
+.page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #888;
+}

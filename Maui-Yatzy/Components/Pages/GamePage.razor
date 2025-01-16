@@ -5,10 +5,10 @@
     @if (!startGamePage)
     {
         <div class="menu-bar">
-                <button @onclick="ChoosePlayersBtn">Nytt spel</button>
-                <button onclick="location.href='/rules'" type="button">Regler</button>
-                <button>Poängtavla</button>
-                <button>Inställningar</button>
+            <button @onclick="ChoosePlayersBtn">Nytt spel</button>
+            <button onclick="location.href='/rules'" type="button">Regler</button>
+            <button class="pointBtn">Poängtavla</button>
+            <button>Inställningar</button>
         </div>
     }
 
@@ -208,4 +208,3 @@
         public int? Points { get; set; } // Nullable för att visa "inte ifylld" med "-"
     }
 }
-

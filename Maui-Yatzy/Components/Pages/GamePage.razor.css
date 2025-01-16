@@ -19,7 +19,6 @@ table{
     border-collapse: collapse;
 }
 
-
 .dice-area {
     display: flex;
     justify-content: space-between;
@@ -69,7 +68,7 @@ button:hover {
 }
 
 .mainGamePageContent{
-    background-color: antiquewhite;
+    /*background-color: antiquewhite;*/
     display: flex;
     justify-items: center;
     height: fit-content;
@@ -79,6 +78,7 @@ button:hover {
 .gameBoard {
     border-radius: 1px;
     border-style: solid;
+    background-color: white;
     display: flex;
     justify-content: center;
     align-content: center;
@@ -86,6 +86,7 @@ button:hover {
     width: fit-content;
 }
 .scoreboard {
+    background-color:aquamarine;
     border-radius: 1px;
     border-style: solid;
     /*width: 100vh;*/
@@ -118,7 +119,7 @@ button:hover {
     align-items: center;
     flex-direction: column;
     height: 80vh;
-    background-color: violet; 
+    /*background-color: violet; */
 }
 
 .playersAddedBox {
