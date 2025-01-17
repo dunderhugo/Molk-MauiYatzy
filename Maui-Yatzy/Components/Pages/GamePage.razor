@@ -17,28 +17,24 @@
         {
             @if (startWindowToggle)
             {
-                <div class="startWindow">
-                    <div class="startGameWindow">
-                        <div>
-                            @foreach (var player in Player.PlayerList)
-                            {
-                                <div class="playersAddedBox">
-                                    <p>@player.ToString()</p>
-                                    @* TODO: Fix remove button *@
-                                    <button>Remove player</button>
-                                </div>
-                            }
+                <div class="startGameWindow">
+                    @foreach (var player in Player.PlayerList)
+                    {
+                        <div class="playersAddedBox">
+                            <p>@player.ToString()</p>
+                            @* TODO: Fix remove button *@
+                            <button>Remove player</button>
                         </div>
-                        <div class="addPlayers">
-                            <input type="text" @bind="newPlayerName" placeholder="Enter player name" />
-                            <button @onclick="AddPlayer">
-                                Add player
-                            </button>
-                        </div>
-                        <button class="starGame" @onclick="StartGameBtn">
-                            Start Game
+                    }
+                    <div class="addPlayers">
+                        <input type="text" @bind="newPlayerName" placeholder="Enter player name" />
+                        <button @onclick="AddPlayer">
+                            Add player
                         </button>
                     </div>
+                    <button class="start-game-btn" @onclick="StartGameBtn">
+                        Start Game
+                    </button>
                 </div>
             }
             @if (!startWindowToggle)
@@ -77,8 +73,11 @@
                             </div>
                         }
                     </div>
-                    <button @onclick="RollDice">Kasta tärningarna</button>
-                    <button @onclick="SaveScore">Spara poäng</button>
+                    <div class="roll-dice-btn">
+                        <button @onclick="RollDice">Kasta tärningarna</button>
+                        <button @onclick="SaveScore">Spara poäng</button>
+                    </div>
+                    
                 </div>
             }
         }
