@@ -74,7 +74,11 @@
                     </div>
                     <div class="roll-dice-btn">
                         <button @onclick="RollDice">Kasta tärningarna</button>
-                        <button @onclick="SaveScore">Spara poäng</button>
+                        @if (hasRolledDice)
+                        {
+                            <button @onclick="SaveScore">Spara poäng</button>
+                        }
+
                     </div>
 
                 </div>
@@ -84,6 +88,9 @@
 </div>
 @code {
     private Dictionary<Player, List<ScoreModel>> playerScores = new();
+    int playerTurnIndex = 0;
+    int timesRolled = 0;
+    bool hasRolledDice = false;
     private int GetPlayerScore(Player player)
     {
         if (playerScores.ContainsKey(player))
@@ -131,7 +138,8 @@
     private void RollDice()
     {
         var random = new Random();
-
+        hasRolledDice = true;
+        if (timesRolled > 2) hasRolledDice = false;
         foreach (var dice in DiceValues)
         {
             if (!dice.IsSelected) // Kasta bara icke-valda tärningar
@@ -139,6 +147,7 @@
                 dice.Value = random.Next(1, 7); // Generera ett värde mellan 1 och 6
             }
         }
+        timesRolled = 0;
     }
 
     private void ToggleSelection(int index)
@@ -161,7 +170,15 @@
     private void StartGameBtn()
     {
         startWindowToggle = !startWindowToggle;
+        PlayersTurn(Player.PlayerList, playerTurnIndex);
     }
+
+    private void PlayersTurn(List<Player> playerList, int index)
+    {
+        // NYI, only one player at the time :(
+        if (playerList.Count() == index) index = 0;
+    }
+
     private void ChoosePlayersBtn()
     {
         startGamePage = !startGamePage;
