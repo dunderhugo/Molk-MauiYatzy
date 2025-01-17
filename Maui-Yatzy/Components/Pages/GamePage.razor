@@ -1,45 +1,109 @@
-﻿@page "/game"
+﻿@page "/"
+@using Maui_Yatzy.Components.Classes
 
-<h3>GamePage</h3>
-
-
-
-
-<h1>Tärningsområde för Yatzy</h1>
-
-<div class="dice-area">
-    @foreach (var dice in DiceValues)
+<div class="gamePageBody">
+    @if (!startGamePage)
     {
-        <div class="dice" style="@(dice.IsSelected ? "background-color: lightblue;" : "")" @onclick="() => ToggleSelection(dice.Index)">
-            <img src="@GetDiceImage(dice.Value)" alt="Tärning @dice.Value" />
+        <div class="menu-bar">
+            <button @onclick="ChoosePlayersBtn">Nytt spel</button>
+            <button onclick="location.href='/rules'" type="button">Regler</button>
+            <button class="nyi-btn">Poängtavla</button>
+            <button class="nyi-btn">Inställningar</button>
         </div>
     }
-</div>
 
-<button @onclick="RollDice">Kasta tärningarna</button>
-<button @onclick="SaveScore">Spara poäng</button>
-
-<h2>Poängtavla</h2>
-<table class="scoreboard">
-    <thead>
-        <tr>
-            <th>Kategori</th>
-            <th>Poäng</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var score in Scores)
+    <div class="mainGamePageContent">
+        @if (startGamePage)
         {
-            <tr>
-                <td>@score.Category</td>
-                <td>@(score.Points.HasValue ? score.Points.Value.ToString() : "-")</td>
-            </tr>
+            @if (startWindowToggle)
+            {
+                <div class="startGameWindow">
+                    @foreach (var player in Player.PlayerList)
+                    {
+                        <div class="playersAddedBox">
+                            <p>@player.ToString()</p>
+                            <button @onclick="@(() => RemovePlayer(player))">Remove player</button>
+                        </div>
+                    }
+                    <div class="addPlayers">
+                        <input type="text" @bind="newPlayerName" placeholder="Enter player name" />
+                        <button @onclick="AddPlayer">
+                            Add player
+                        </button>
+                    </div>
+                    <button class="start-game-btn" @onclick="StartGameBtn">
+                        Start Game
+                    </button>
+                </div>
+            }
+            @if (!startWindowToggle)
+            {
+                <div class="gameBoard">
+                    <table class="scoreboard">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                @foreach (var player in Player.PlayerList)
+                                {
+                                    <th>@player.ToString()</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var category in Scores)
+                            {
+                                <tr>
+                                    <td style="font-weight: @(category.Category == "Summa" ? "800" : "normal");">
+                                        @category.Category
+                                    </td>
+                                    @foreach (var player in Player.PlayerList)
+                                    {
+                                        <td><!--Add scores from players here--></td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="dice-area">
+                        @foreach (var dice in DiceValues)
+                        {
+                            <div class="dice" style="@(dice.IsSelected ? "background-color: lightblue;" : "")" @onclick="() => ToggleSelection(dice.Index)">
+                                <img class="dicesize" src="@GetDiceImage(dice.Value)" alt="Tärning @dice.Value" />
+                            </div>
+                        }
+                    </div>
+                    <div class="roll-dice-btn">
+                        <button @onclick="RollDice">Kasta tärningarna</button>
+                        @if (hasRolledDice)
+                        {
+                            <button @onclick="SaveScore">Spara poäng</button>
+                        }
+
+                    </div>
+
+                </div>
+            }
         }
-    </tbody>
-</table>
-
-
+    </div>
+</div>
 @code {
+    private Dictionary<Player, List<ScoreModel>> playerScores = new();
+    int playerTurnIndex = 0;
+    int timesRolled = 0;
+    bool hasRolledDice = false;
+    private int GetPlayerScore(Player player)
+    {
+        if (playerScores.ContainsKey(player))
+        {
+            return playerScores[player]
+                .Where(score => score.Points.HasValue)
+                .Sum(score => score.Points.Value);
+        }
+        return 0;
+    }
+    private bool startWindowToggle = true;
+    private bool startGamePage = false;
+
     private List<DiceModel> DiceValues = new List<DiceModel>
     {
         new DiceModel { Index = 0, Value = 1 },
@@ -57,13 +121,25 @@
         new ScoreModel { Category = "Fyror" },
         new ScoreModel { Category = "Femmor" },
         new ScoreModel { Category = "Sexor" },
+        new ScoreModel { Category = "Summa" },
+        new ScoreModel { Category = "1 Par" },
+        new ScoreModel { Category = "2 par" },
+        new ScoreModel { Category = "Tretal" },
+        new ScoreModel { Category = "Fyrtal" },
+        new ScoreModel { Category = "Liten stege" },
+        new ScoreModel { Category = "Stor stege" },
+        new ScoreModel { Category = "Kåk" },
+        new ScoreModel { Category = "Chans" },
+        new ScoreModel { Category = "YATZY" },
         new ScoreModel { Category = "Summa" }
     };
+
 
     private void RollDice()
     {
         var random = new Random();
-
+        hasRolledDice = true;
+        if (timesRolled > 2) hasRolledDice = false;
         foreach (var dice in DiceValues)
         {
             if (!dice.IsSelected) // Kasta bara icke-valda tärningar
@@ -71,6 +147,7 @@
                 dice.Value = random.Next(1, 7); // Generera ett värde mellan 1 och 6
             }
         }
+        timesRolled = 0;
     }
 
     private void ToggleSelection(int index)
@@ -90,17 +167,50 @@
         }
     }
 
+    private void StartGameBtn()
+    {
+        startWindowToggle = !startWindowToggle;
+        PlayersTurn(Player.PlayerList, playerTurnIndex);
+    }
+
+    private void PlayersTurn(List<Player> playerList, int index)
+    {
+        // NYI, only one player at the time :(
+        if (playerList.Count() == index) index = 0;
+    }
+
+    private void ChoosePlayersBtn()
+    {
+        startGamePage = !startGamePage;
+    }
+    private string newPlayerName = string.Empty;
+    private void AddPlayer()
+    {
+        if (!string.IsNullOrEmpty(newPlayerName))
+        {
+            Player.PlayerList.Add(new Player(newPlayerName));
+            newPlayerName = string.Empty;
+        }
+    }
+    private void RemovePlayer(Player player)
+    {
+        if (Player.PlayerList.Contains(player))
+        {
+            Player.PlayerList.Remove(player);
+        }
+    }
+
     private string GetDiceImage(int value)
     {
         return value switch
         {
-            1 => "/images/dice-1.png",
-            2 => "/images/dice-2.png",
-            3 => "/images/dice-3.png",
-            4 => "/images/dice-4.png",
-            5 => "/images/dice-5.png",
-            6 => "/images/dice-6.png",
-            _ => "/images/dice-1.png" // Default om något går fel
+            1 => "diceone.png",
+            2 => "dicetwo.png",
+            3 => "dicethree.png",
+            4 => "dicefour.png",
+            5 => "dicefive.png",
+            6 => "dicesix.png",
+            _ => "diceone.png" // Default om något går fel
         };
     }
 
@@ -117,4 +227,3 @@
         public int? Points { get; set; } // Nullable för att visa "inte ifylld" med "-"
     }
 }
-

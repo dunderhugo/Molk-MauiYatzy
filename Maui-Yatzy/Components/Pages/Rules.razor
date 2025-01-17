@@ -1,0 +1,41 @@
+﻿@page "/rules"
+<div class="rules-body">
+    <h1>Regler</h1>
+    <p>Här kan du läsa reglerna för Yatzy.</p>
+
+    <h2>Spelets mål</h2>
+    <p>Målet med Yatzy är att få så många poäng som möjligt genom att kasta fem tärningar och samla kombinationer enligt poängtavlan.</p>
+
+    <h2>Så spelar man</h2>
+    <ol>
+        <li>Varje spelare får tre kast per tur.</li>
+        <li>Efter varje kast får spelaren välja vilka tärningar som ska sparas och vilka som ska kastas om.</li>
+        <li>När spelaren är nöjd med sin kombination (eller har gjort tre kast) väljer hen vilken kategori på poängtavlan som ska fyllas i.</li>
+    </ol>
+
+    <h2>Poängkategorier</h2>
+    <ul>
+        <li><strong>Ettor till sexor:</strong> Summan av tärningar med valt nummer.</li>
+        <li><strong>Par:</strong> Två tärningar med samma värde.</li>
+        <li><strong>Två par:</strong> Två olika par.</li>
+        <li><strong>Tretal:</strong> Tre tärningar med samma värde.</li>
+        <li><strong>Fyrtal:</strong> Fyra tärningar med samma värde.</li>
+        <li><strong>Liten stege:</strong> Tärningar som visar 1, 2, 3, 4 och 5 (15 poäng).</li>
+        <li><strong>Stor stege:</strong> Tärningar som visar 2, 3, 4, 5 och 6 (20 poäng).</li>
+        <li><strong>Kåk:</strong> Ett tretal och ett par (25 poäng).</li>
+        <li><strong>Chans:</strong> Summan av alla tärningar.</li>
+        <li><strong>Yatzy:</strong> Alla fem tärningar visar samma värde (50 poäng).</li>
+    </ul>
+
+    <h2>Bonus</h2>
+    <p>Om summan av poängen i kategorierna Ettor till Sexor är minst 63 poäng, får spelaren en bonus på 50 poäng.</p>
+
+    <h2>Spelets slut</h2>
+<p>När alla kategorier på poängtavlan är ifyllda avslutas spelet, och den spelare med högst poäng vinner.</p>
+
+    <button onclick="location.href='/'" type="button">Tillbaka</button>
+
+</div>
+@code {
+
+}
